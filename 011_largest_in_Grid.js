@@ -40,6 +40,42 @@ function largestGridProduct(arr) {
   return maxProduct;
 }
 
+// Same Logic
+function largestGridProduct(arr) {
+  let i = 0, j = 0,
+    n = arr.length
+    horizontal_sum = 0,
+    vertical_sum = 0,
+    forward_diagonal_sum = 0,
+    backward_diagonal_sum = 0,
+    max_product = 1;
+
+  while(i < n){
+    while(j < n){
+      // console.log('i =', i, ', j =', j, ', n-4',  n-4)
+      if(i <= n-4){
+        vertical_sum = arr[i][j] * arr[i+1][j] * arr[i+2][j] * arr[i+3][j]
+        // console.log('vertical => ', arr[i][j], ' ', arr[i+1][j], ' ', arr[i+2][j], ' ', arr[i+3][j])
+        if(j <= n-4){
+          backward_diagonal_sum = arr[i][j] * arr[i+1][j+1] * arr[i+2][j+2] * arr[i+3][j+3]
+          forward_diagonal_sum = arr[i+3][j] * arr[i+2][j+1] * arr[i+1][j+2] * arr[i][j+3]
+          // console.log('backward => ', arr[i][j], ' ', arr[i+1][j+1], ' ', arr[i+2][j+2], ' ', arr[i+3][j+3])
+          // console.log('forward => ', arr[i+3][j], ' ', arr[i+2][j+1], ' ', arr[i+1][j+2], ' ', arr[i][j+3])
+        }
+      }
+      if(j <= n-4){
+        horizontal_sum = arr[i][j] * arr[i][j+1] * arr[i][j+2] * arr[i][j+3]
+        // console.log('horizontal => ', arr[i][j], ' ', arr[i][j+1], ' ', arr[i][j+2], ' ', arr[i][j+3])
+      }
+      max_product = Math.max(max_product, horizontal_sum, vertical_sum, backward_diagonal_sum, forward_diagonal_sum)
+      j++
+    }
+    j = 0
+    i++
+  }
+  return max_product;
+}
+
 // Only change code above this line
 const grid = [
   [8, 2, 22, 97, 38, 15, 0, 40, 0, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8],
@@ -71,7 +107,5 @@ const testGrid = [
   [51, 54, 69, 16, 92],
   [7, 97, 57, 32, 16]
 ];
-
+console.log(testGrid)
 largestGridProduct(testGrid);
-
-console.log(largestGridProduct(grid));
